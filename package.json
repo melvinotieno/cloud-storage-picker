@@ -26,9 +26,11 @@
   },
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "dev": "tsup --watch --onSuccess \"http-server\""
   },
   "devDependencies": {
+    "http-server": "^14.1.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }
