@@ -1,6 +1,6 @@
 import type { FileData, StorageProvider } from "./types";
 
-interface ChooserParams<Options, RawFileData> {
+interface PickerParams<Options, RawFileData> {
   provider: StorageProvider<Options, RawFileData>;
 }
 
@@ -11,13 +11,13 @@ interface ChooserParams<Options, RawFileData> {
  * @returns An object with an `open` method that delegates to the provider.
  *
  * @example
- * const chooser = createChooser({
+ * const picker = createPicker({
  *    provider: dropboxProvider({ appKey: "your-app-key" })
  * });
  *
- * const files = await chooser.open({ multiple: true });
+ * const files = await picker.open({ multiple: true });
  */
-export function createChooser<O, R>(params: ChooserParams<O, R>) {
+export function createPicker<O, R>(params: PickerParams<O, R>) {
   return {
     open: async (options?: O): Promise<FileData<R>[]> => {
       return params.provider.open(options);
