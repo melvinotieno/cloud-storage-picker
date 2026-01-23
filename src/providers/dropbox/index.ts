@@ -1,11 +1,5 @@
 import type { FileData, StorageProvider } from "@/picker/types";
 
-declare global {
-  interface Window {
-    Dropbox?: any;
-  }
-}
-
 export interface DropboxConfig {
   /**
    * Required. The Dropbox App Key for your application.
@@ -117,8 +111,16 @@ export const dropboxProvider: DropboxProvider = (config, options) => {
       const finalOptions = { ...options, ...opts };
 
       return new Promise<FileData<DropboxFileData>[]>((resolve, reject) => {
+        if (!window.Dropbox) {
+          return reject(new Error("Dropbox SDK not loaded"));
+        }
+
         window.Dropbox.choose({
-          ...finalOptions,
+          linkType: finalOptions.linkType,
+          multiselect: finalOptions.multiSelect,
+          extensions: finalOptions.extensions,
+          folderselect: finalOptions.folderSelect,
+          sizeLimit: finalOptions.sizeLimit,
           success: (files: DropboxFileData[]) => {
             const mappedFiles: FileData<DropboxFileData>[] = files.map(
               (file) => ({
