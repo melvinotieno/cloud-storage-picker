@@ -21,6 +21,7 @@
     <script type="module">
       import { createPicker } from "./dist/index.js";
       import { dropboxProvider } from "./dist/providers/dropbox.js";
+      import { googleDriveProvider } from "./dist/providers/google-drive.js";
 
       const resultDiv = document.querySelector(".result");
 
@@ -40,9 +41,26 @@
         updateResult(files);
       };
 
+      const onGoogleDrivePicker = async () => {
+        const picker = createPicker({
+          provider: googleDriveProvider({
+            clientId: "YOUR_GOOGLE_CLIENT_ID",
+            apiKey: "YOUR_GOOGLE_API_KEY",
+          }),
+        });
+
+        const files = await picker.open();
+
+        updateResult(files);
+      };
+
       document
         .querySelector("#dropbox")
         .addEventListener("click", onDropboxChooser);
+
+      document
+        .querySelector("#google-drive")
+        .addEventListener("click", onGoogleDrivePicker);
     </script>
   </body>
 </html>
